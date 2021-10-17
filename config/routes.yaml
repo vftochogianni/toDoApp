@@ -1,0 +1,20 @@
+# Index
+index:
+  path: /
+  controller: ToDoApp\Controller\IndexController::indexAction
+
+
+
+# Cache
+cache_getCacheItem:
+  path: /cache/{key}/get
+  controller: ToDoApp\Controller\CacheController::getAction
+  methods: GET
+cache_setCacheItem:
+  path: /cache/{key}/set
+  controller: ToDoApp\Controller\CacheController::setAction
+  methods: PUT
+cache_deletCacheItem:
+  path: /cache/{key}/delete
+  controller: ToDoApp\Controller\CacheController::deleteAction
+  methods: DELETE

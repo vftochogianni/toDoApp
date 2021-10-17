@@ -32,7 +32,7 @@ make clean
 For a totally fresh start run the following in a terminal:
 ```bash
 make reinstall
-docker exec -it php74-container bash
+docker exec -it todoapp-php74-container bash
 make prepare-db
 ```
 
@@ -53,7 +53,7 @@ The result of those steps will be an entity and a repository that can be further
 #### Migrations
 After the entity is ready in a terminal run the following:
 ```bash
-docker exec -it php74-container bash
+docker exec -it todoapp-php74-container bash
 ```
 You will then be connected in the php container where you can execute the migration as such:
 ```bash
@@ -82,7 +82,7 @@ Note that the function that will handle the event is `onDomainEvent`
 
 Ensure that the test database is set up for the integration and e2e tests 
 ```bash
-docker exec -it php74-container bash
+docker exec -it todoapp-php74-container bash
 php bin/console --env=test doctrine:database:create --if-not-exists
 php bin/console --env=test doctrine:schema:create
 php bin/console --env=test doctrine:fixtures:load
@@ -97,3 +97,6 @@ To run the integration tests execute:
 ```bash
 make run-integration
 ```
+
+## Development
+To access your local enviroment and the app visit: [http://localhost:8081/](http://localhost:8081/)

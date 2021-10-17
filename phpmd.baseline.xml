@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<phpmd-baseline>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="src/Application/Cache/CacheService.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\StaticAccess" file="src/Application/User/Command/LoginUser.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\ElseExpression" file="src/Application/User/Command/LoginUser.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\StaticAccess" file="src/Application/User/Command/RegisterUser.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\ElseExpression" file="src/Application/User/CommandHandler/LoginUserHandler.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\StaticAccess" file="src/Application/User/CommandHandler/RegisterUserHandler.php"/>
+  <violation rule="PHPMD\Rule\UnusedFormalParameter" file="src/Application/User/LoginAuthenticator.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\StaticAccess" file="src/Application/User/LoginAuthenticator.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="src/Controller/UserController.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\IfStatementAssignment" file="src/Controller/UserController.php" method="loginAction"/>
+  <violation rule="PHPMD\Rule\CleanCode\StaticAccess" file="src/Controller/UserController.php"/>
+  <violation rule="PHPMD\Rule\UnusedFormalParameter" file="src/Controller/UserController.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\StaticAccess" file="src/DataFixtures/UserFixtures.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="src/DataFixtures/UserFixtures.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="src/Domain/User/Event/UserLoggedIn.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="src/Domain/User/Event/UserRegistered.php"/>
+  <violation rule="PHPMD\Rule\Design\LongParameterList" file="src/Domain/User/User.php" method="__construct"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="src/Domain/User/User.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\StaticAccess" file="src/Domain/User/UserId.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="src/Entity/SystemEvent.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\MissingImport" file="src/Entity/User.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\ElseExpression" file="src/Kernel.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\StaticAccess" file="src/Repository/UserRepository.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\StaticAccess" file="src/Subscriber/SystemEventSubscriber.php"/>
+</phpmd-baseline>
