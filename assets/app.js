@@ -2,14 +2,15 @@ import './styles/app.css'
 import './bootstrap'
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import { ThemeProvider } from '@material-ui/styles'
+import ToDoContextProvider from './js/contexts/ToDoContext'
+import ToDoTable from './js/components/ToDoTable'
 
 class ToDoApp extends Component {
   render () {
     return (
-      <ThemeProvider>
-
-      </ThemeProvider>
+      <ToDoContextProvider>
+        <ToDoTable />
+      </ToDoContextProvider>
     )
   }
 }
