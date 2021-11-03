@@ -7,15 +7,15 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 abstract class DomainEvent extends Event implements StoppableEventInterface
 {
-    protected string $userId;
+    protected int $taskId;
 
     abstract public function getPayload(): array;
 
     abstract public function getName(): string;
 
-    public function getUserId(): string
+    public function getTaskId(): int
     {
-        return $this->userId;
+        return $this->taskId;
     }
 
     abstract public function recordedAt(): \DateTimeImmutable;
