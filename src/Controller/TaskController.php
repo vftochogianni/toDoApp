@@ -13,6 +13,9 @@ use ToDoApp\Application\Task\Command\CreateTask;
 use ToDoApp\Application\Task\Command\DeleteTask;
 use ToDoApp\Application\Task\Command\UpdateTaskName;
 use ToDoApp\Application\Task\TaskService;
+use ToDoApp\Domain\Exception\LengthTooLongException;
+use ToDoApp\Domain\Exception\LengthTooShortException;
+use ToDoApp\Domain\Exception\NotValidException;
 
 class TaskController extends BaseController
 {
@@ -26,9 +29,14 @@ class TaskController extends BaseController
 
     public function createAction(Request $request): Response
     {
-        $name = $request->get('name');
+        $data = json_decode($request->getContent(), true);
+        $name = $data['name'] ?? '';
 
-        $taskId = $this->dispatchCommand(new CreateTask($name));
+        try {
+            $taskId = $this->dispatchCommand(new CreateTask($name));
+        } catch (NotValidException | LengthTooShortException | LengthTooLongException $exception) {
+            return new JsonResponse(['error' => $exception->getMessage()], 400);
+        }
 
         return new JsonResponse(['id' => $taskId->value()], 201);
     }
@@ -36,7 +44,8 @@ class TaskController extends BaseController
     public function updateAction(Request $request): Response
     {
         $id = (int) $request->get('id');
-        $name = $request->get('name');
+        $data = json_decode($request->getContent(), true);
+        $name = $data['name'] ?? '';
 
         $this->dispatchCommand(new UpdateTaskName($id, $name));
 

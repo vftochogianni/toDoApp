@@ -77,13 +77,7 @@ class TaskRepository extends ServiceEntityRepository implements Base
 
     public function findAll(): array
     {
-        $list = parent::findAll();
-        $tasks = [];
-        foreach ($list as $dbTask) {
-            $tasks[] = self::convertToAggregate($dbTask);
-        }
-
-        return $tasks;
+        return parent::findAll();
     }
 
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)

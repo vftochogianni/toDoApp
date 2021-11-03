@@ -2,15 +2,15 @@ import './styles/app.css'
 import './bootstrap'
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import ToDoContextProvider from './js/contexts/ToDoContext'
-import ToDoTable from './js/components/ToDoTable'
+import TaskContextProvider from './js/contexts/TaskContext'
+import TaskTable from './js/components/TaskTable'
 
 class ToDoApp extends Component {
   render () {
     return (
-      <ToDoContextProvider>
-        <ToDoTable />
-      </ToDoContextProvider>
+      <TaskContextProvider>
+        <TaskTable />
+      </TaskContextProvider>
     )
   }
 }

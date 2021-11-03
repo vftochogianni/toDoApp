@@ -5,11 +5,11 @@ index:
 
 # Task
 create_task:
-  path: /tasks/create
+  path: /tasks
   controller: ToDoApp\Controller\TaskController::createAction
   methods: POST
 update_task:
-  path: /tasks/{id}/update
+  path: /tasks/{id}
   controller: ToDoApp\Controller\TaskController::updateAction
   methods: PUT
 complete_task:
@@ -17,7 +17,7 @@ complete_task:
   controller: ToDoApp\Controller\TaskController::completeAction
   methods: POST
 delete_task:
-  path: /tasks/{id}/delete
+  path: /tasks/{id}
   controller: ToDoApp\Controller\TaskController::deleteAction
   methods: DELETE
 get_all_tasks:
