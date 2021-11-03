@@ -3,13 +3,17 @@ import axios from "axios";
 
 export const TaskContext = createContext()
 
+const defaultState = {
+  tasks: [],
+  error: '',
+  editError: '',
+  deleteError: '',
+}
+
 class TaskContextProvider extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {
-      tasks: [],
-      error: ''
-    }
+    this.state = defaultState
   }
 
   async componentDidMount() {
@@ -27,8 +31,7 @@ class TaskContextProvider extends React.Component {
   //create
   createTask(e, data) {
     e.preventDefault()
-    const headers = {'Content-Type': 'application/json'};
-    axios.post('/tasks', { 'name': data.name }, { headers}).then((res) => {
+    axios.post('/tasks', { 'name': data.name }).then((res) => {
       if (res.status !== 201) {
         this.setState(
           {...this.state, error: res.data['error']}
@@ -40,8 +43,8 @@ class TaskContextProvider extends React.Component {
       let tasks = this.state.tasks
       tasks.push(task)
       this.setState({
+        ...defaultState,
         tasks: tasks,
-        error: ''
       })
     }).catch((err) => {
       this.setState(
@@ -51,43 +54,96 @@ class TaskContextProvider extends React.Component {
   }
 
   //update
-  updateTask(data) {
+  async updateTask(data) {
     let tasks = this.state.tasks
     let task = tasks.find((task) => {
       return task.id === data.id
     })
 
-    task.name = data.name
+    if (task.name === data.name) {
+      return true
+    }
 
-    this.setState(
-      {tasks: tasks}
-    )
+    try {
+      const res = await axios.put(`/tasks/${data.id}`, {'name': data.name})
+      if (res.status !== 204) {
+        this.setState(
+          {...this.state, editError: res.data['error']}
+        )
+
+        return false
+      }
+
+      task.name = data.name
+
+      this.setState({
+        ...defaultState,
+        tasks: tasks
+      })
+
+      return true
+    } catch (e) {
+      this.setState(
+        {...this.state, editError: e.response.data['error']}
+      )
+      return false
+    }
   }
 
   //complete
-  completeTask(data) {
+  async completeTask(data) {
     let tasks = this.state.tasks
     let task = tasks.find((task) => {
       return task.id === data.id
     })
 
-    task.isCompleted = true
+    if (task.isCompleted) {
+      return
+    }
 
-    this.setState(
-      {tasks: tasks}
-    )
+    try {
+      const res = await axios.post(`/tasks/${data.id}/complete`)
+      if (res.status !== 204) {
+        return
+      }
+
+      task.isCompleted = true
+
+      this.setState({
+        ...defaultState,
+        tasks: tasks,
+      })
+    } catch (e) {
+
+    }
   }
 
   // delete
-  deleteTask(id) {
-    let tasks = [...this.state.tasks]
+  async deleteTask(id) {
+    let tasks = this.state.tasks
     let task = tasks.find((task) => {
       return task.id === id
     })
 
-    tasks.splice(tasks.indexOf(task), 1)
+    try {
+      const res = await axios.delete(`/tasks/${id}`, )
+      if (res.status !== 204) {
+        this.setState(
+          {...this.state, deleteError: res.data['error']}
+        )
+      }
 
-    this.setState({ tasks: tasks })
+      tasks.splice(tasks.indexOf(task), 1)
+
+      this.setState({
+        ...defaultState,
+        tasks: tasks,
+      })
+    } catch (e) {
+      this.setState(
+        {...this.state, deleteError: e.response.data['error']}
+      )
+    }
   }
 
   render () {

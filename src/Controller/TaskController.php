@@ -13,9 +13,7 @@ use ToDoApp\Application\Task\Command\CreateTask;
 use ToDoApp\Application\Task\Command\DeleteTask;
 use ToDoApp\Application\Task\Command\UpdateTaskName;
 use ToDoApp\Application\Task\TaskService;
-use ToDoApp\Domain\Exception\LengthTooLongException;
-use ToDoApp\Domain\Exception\LengthTooShortException;
-use ToDoApp\Domain\Exception\NotValidException;
+use ToDoApp\Domain\Task\Exception\TaskExistsException;
 
 class TaskController extends BaseController
 {
@@ -34,8 +32,14 @@ class TaskController extends BaseController
 
         try {
             $taskId = $this->dispatchCommand(new CreateTask($name));
-        } catch (NotValidException | LengthTooShortException | LengthTooLongException $exception) {
-            return new JsonResponse(['error' => $exception->getMessage()], 400);
+        } catch (\Throwable $exception) {
+            $status = 400;
+            $message = $exception->getMessage();
+            if ($exception->getPrevious() && $exception->getPrevious() instanceof TaskExistsException) {
+                $status = 409;
+                $message = $exception->getPrevious()->getMessage();
+            }
+            return new JsonResponse(['error' => $message], $status);
         }
 
         return new JsonResponse(['id' => $taskId->value()], 201);
@@ -47,7 +51,17 @@ class TaskController extends BaseController
         $data = json_decode($request->getContent(), true);
         $name = $data['name'] ?? '';
 
-        $this->dispatchCommand(new UpdateTaskName($id, $name));
+        try {
+            $this->dispatchCommand(new UpdateTaskName($id, $name));
+        } catch (\Throwable $exception) {
+            $status = 400;
+            $message = $exception->getMessage();
+            if ($exception->getPrevious() && $exception->getPrevious() instanceof TaskExistsException) {
+                $status = 409;
+                $message = $exception->getPrevious()->getMessage();
+            }
+            return new JsonResponse(['error' => $message], $status);
+        }
 
         return new JsonResponse([], 204);
     }

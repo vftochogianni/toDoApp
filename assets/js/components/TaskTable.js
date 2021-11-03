@@ -19,7 +19,13 @@ function TaskTable () {
 
   return (
     <div>
-      <form onSubmit={(e) => {context.createTask(e, {name: task})}}>
+      <form onSubmit={(e) => {
+        context.createTask(e, {name: task})
+        setEditTaskId(false)
+        setEditedTask('')
+        setDeleteTask({})
+        setDeleteDialogOpen(false)
+      }}>
         <Table>
           <TableHead>
             <TableRow>
@@ -30,7 +36,13 @@ function TaskTable () {
           <TableBody>
             <TableRow>
               <TableCell>
-                <TextField error={context.error.length > 0} helperText={context.error} fullWidth={true} label='New task' value={task} onChange={(e) => setTask(e.target.value)}/>
+                <TextField error={context.error.length > 0} helperText={context.error} fullWidth={true} label='New task' value={task} onChange={(e) => {
+                  setTask(e.target.value)
+                  setEditTaskId(false)
+                  setEditedTask('')
+                  setDeleteTask({})
+                  setDeleteDialogOpen(false)
+                }}/>
               </TableCell>
               <TableCell align='right'>
                 <IconButton aria-label="add"  color="primary" type='submit'>
@@ -42,21 +54,31 @@ function TaskTable () {
               <TableRow key={task.id}>
                 <TableCell>
                   {editTaskId === task.id ?
-                    <TextField fullWidth={true} label='Update task' value={editedTask} onChange={(e) => setEditedTask(e.target.value)}/> :
+                    <TextField error={context.editError.length > 0} helperText={context.editError} fullWidth={true} label='Update task' value={editedTask} onChange={(e) => setEditedTask(e.target.value)}/> :
                     task.name
                   }
                 </TableCell>
                 <TableCell align='right'>
                   {editTaskId === task.id ?
                     <div>
-                      <IconButton aria-label="save" onClick={() => {
-                        context.updateTask({id: task.id, name: editedTask})
-                        setEditTaskId(false)
+                      <IconButton aria-label="save" onClick={async () => {
+                        const taskUpdated = await context.updateTask({...task, name: editedTask})
+                        if (taskUpdated) {
+                          setEditTaskId(false)
+                          setEditedTask('')
+                          setDeleteTask({})
+                          setDeleteDialogOpen(false)
+                          setTask('')
+                        }
                       }}>
                         <SaveIcon/>
                       </IconButton>
                       <IconButton aria-label="cancel" color="secondary" onClick={() => {
                         setEditTaskId(false)
+                        setEditedTask('')
+                        setDeleteTask({})
+                        setDeleteDialogOpen(false)
+                        setTask('')
                       }}>
                         <CancelIcon />
                       </IconButton>
@@ -66,11 +88,19 @@ function TaskTable () {
                       <IconButton aria-label="edit" onClick={() => {
                         setEditTaskId(task.id)
                         setEditedTask(task.name)
+                        setDeleteTask({})
+                        setDeleteDialogOpen(false)
+                        setTask('')
                       }}>
                         <EditIcon/>
                       </IconButton>
-                      <IconButton aria-label="complete" color="primary" onClick={() => {
-                        context.completeTask(task)
+                      <IconButton aria-label="complete" color="primary" onClick={async () => {
+                        await context.completeTask(task)
+                        setEditTaskId(false)
+                        setEditedTask('')
+                        setDeleteTask({})
+                        setDeleteDialogOpen(false)
+                        setTask('')
                       }}>
                         <CheckCircleIcon />
                       </IconButton>
@@ -92,6 +122,9 @@ function TaskTable () {
                   <IconButton aria-label="delete" color="secondary" onClick={() => {
                     setDeleteDialogOpen(true)
                     setDeleteTask(task)
+                    setEditTaskId(false)
+                    setEditedTask('')
+                    setTask('')
                   }}>
                     <DeleteIcon />
                   </IconButton>
@@ -106,6 +139,9 @@ function TaskTable () {
         context.deleteTask(deleteTask.id)
         setDeleteDialogOpen(false)
         setDeleteTask({})
+        setEditTaskId(false)
+        setEditedTask('')
+        setTask('')
       }} task={deleteTask.task} />
 
     </div>
