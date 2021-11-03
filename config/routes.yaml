@@ -3,7 +3,27 @@ index:
   path: /
   controller: ToDoApp\Controller\IndexController::indexAction
 
-
+# Task
+create_task:
+  path: /tasks/create
+  controller: ToDoApp\Controller\TaskController::createAction
+  methods: POST
+update_task:
+  path: /tasks/{id}/update
+  controller: ToDoApp\Controller\TaskController::updateAction
+  methods: PUT
+complete_task:
+  path: /tasks/{id}/complete
+  controller: ToDoApp\Controller\TaskController::completeAction
+  methods: POST
+delete_task:
+  path: /tasks/{id}/delete
+  controller: ToDoApp\Controller\TaskController::deleteAction
+  methods: DELETE
+get_all_tasks:
+  path: /tasks
+  controller: ToDoApp\Controller\TaskController::getAllAction
+  methods: GET
 
 # Cache
 cache_getCacheItem:

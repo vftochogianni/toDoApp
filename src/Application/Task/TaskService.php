@@ -2,6 +2,7 @@
 
 namespace ToDoApp\Application\Task;
 
+use ToDoApp\Domain\Task\Task;
 use ToDoApp\Domain\Task\TaskRepository;
 
 /**
@@ -18,6 +19,8 @@ class TaskService
 
     public function getAllTasks(): array
     {
-        return $this->repository->findAll();
+        return array_map(function (Task $task): array {
+            return $task->toArray();
+        }, $this->repository->findAll());
     }
 }
