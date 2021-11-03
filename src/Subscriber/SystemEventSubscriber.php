@@ -5,6 +5,7 @@ namespace ToDoApp\Subscriber;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use ToDoApp\Domain\DomainEvent;
+use ToDoApp\Domain\Task\Event;
 use ToDoApp\Entity\SystemEvent;
 use ToDoApp\Repository\SystemEventRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -22,7 +23,12 @@ class SystemEventSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return [];
+        return [
+            Event\TaskCreated::class => ['onDomainEvent', -999],
+            Event\TaskNameUpdated::class => ['onDomainEvent', -999],
+            Event\TaskCompleted::class => ['onDomainEvent', -999],
+            Event\TaskDeleted::class => ['onDomainEvent', -999],
+        ];
     }
 
     public function onDomainEvent(DomainEvent $event)

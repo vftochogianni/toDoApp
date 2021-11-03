@@ -29,7 +29,7 @@ class SystemEvent
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $userId;
+    private $taskId;
 
     /**
      * @ORM\Column(type="json")
@@ -85,14 +85,14 @@ class SystemEvent
         return $this;
     }
 
-    public function getUserId()
+    public function getTaskId()
     {
-        return $this->userId;
+        return $this->taskId;
     }
 
-    public function setUserId($userId): self
+    public function setTaskId($taskId): self
     {
-        $this->userId = $userId;
+        $this->taskId = $taskId;
 
         return $this;
     }
@@ -100,7 +100,7 @@ class SystemEvent
     public static function fromDomainEvent(DomainEvent $event): self
     {
         $self = new self();
-        $self->setName($event->getName())->setPayload($event->getPayload())->setUserId($event->getUserId());
+        $self->setName($event->getName())->setPayload($event->getPayload())->setTaskId($event->getTaskId());
 
         return $self;
     }

@@ -8,8 +8,10 @@ use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Log\LoggerInterface;
 use ToDoApp\Domain\DomainEvent;
-use ToDoApp\Domain\User\Event\UserLoggedIn;
-use ToDoApp\Domain\User\Event\UserRegistered;
+use ToDoApp\Domain\Task\Event\TaskCompleted;
+use ToDoApp\Domain\Task\Event\TaskCreated;
+use ToDoApp\Domain\Task\Event\TaskDeleted;
+use ToDoApp\Domain\Task\Event\TaskNameUpdated;
 use ToDoApp\Entity\SystemEvent;
 use ToDoApp\Repository\SystemEventRepository;
 use ToDoApp\Subscriber\SystemEventSubscriber;
@@ -51,7 +53,12 @@ class SystemEventSubscriberTest extends TestCase
 
     public function eventList(): array
     {
-        return [];
+        return [
+            [TaskCreated::class],
+            [TaskNameUpdated::class],
+            [TaskCompleted::class],
+            [TaskDeleted::class],
+        ];
     }
 
     private function getDomainEvent(): DomainEvent
@@ -67,9 +74,9 @@ class SystemEventSubscriberTest extends TestCase
                 return 'test.event';
             }
 
-            public function getUserId(): string
+            public function getTaskId(): int
             {
-                return 'user-id';
+                return 1;
             }
 
             public function recordedAt(): \DateTimeImmutable

@@ -10,15 +10,14 @@ class SystemEventRepositoryTest extends IntegrationTestCase
 {
     public function testSaveSystemEvent()
     {
-        $id = uniqid();
-        $userId = uniqid();
+        $taskId = uniqid();
         /** @var SystemEventRepository $repository */
         $repository = $this->entityManager->getRepository(SystemEvent::class);
         $systemEvent = (new SystemEvent())
-            ->setPayload(['userId' => $id])
+            ->setPayload(['taskId' => $taskId])
             ->setName('test.event')
             ->setRecordedAt()
-            ->setUserId($userId);
+            ->setTaskId($taskId);
 
         $repository->save($systemEvent);
 
@@ -26,7 +25,7 @@ class SystemEventRepositoryTest extends IntegrationTestCase
         $result = $repository->findOneBy(['id' => $systemEvent->getId()]);
         self::assertEquals($systemEvent, $result);
         self::assertEquals('test.event', $result->getName());
-        self::assertEquals($userId, $result->getUserId());
-        self::assertEquals(['userId' => $id], $result->getPayload());
+        self::assertEquals($taskId, $result->getTaskId());
+        self::assertEquals(['taskId' => $taskId], $result->getPayload());
     }
 }

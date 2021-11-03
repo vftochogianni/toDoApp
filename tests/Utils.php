@@ -6,7 +6,7 @@ class Utils
 {
     public static function generateRandomString(
         int $length = 12,
-        bool $containSpecialCharacters = true,
+        bool $containSpecialCharacters = false,
         bool $containsLowercase = true,
         bool $containsUppercase = true,
         bool $containNumeric = true
