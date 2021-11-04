@@ -142,7 +142,7 @@ function TaskTable () {
         setEditTaskId(false)
         setEditedTask('')
         setTask('')
-      }} task={deleteTask.task} />
+      }} task={deleteTask.name} />
 
     </div>
   )
