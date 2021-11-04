@@ -1,6 +1,9 @@
 # ToDoApp
 
-This is a software web application in which people can add tasks to complete. 
+This is a software web application in which people can add tasks to complete.
+
+**`Disclaimer`** This project's UI has been inspired
+from [Sander Cokart](https://www.youtube.com/channel/UCzwh2XtYJNDvE1aZfw9vKmg)'s [youtube series](https://www.youtube.com/watch?v=qYgf9v3PNu8&list=PLKgdkWe819ixRoJMWqQpebmUkqKaiTMBl&index=2)
 
 ## Local environment
 

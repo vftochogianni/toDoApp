@@ -2,6 +2,10 @@
 
 namespace ToDoApp\Tests;
 
+use ToDoApp\Domain\Task\Task;
+use ToDoApp\Domain\Task\TaskId;
+use ToDoApp\Domain\Task\TaskName;
+
 class Utils
 {
     public static function generateRandomString(
@@ -48,5 +52,20 @@ class Utils
         }
 
         return $random;
+    }
+
+    public static function createTask(bool $completed = false): Task
+    {
+        $taskId = TaskId::create(1);
+        $taskName = TaskName::create('a new task');
+        $task = Task::create($taskId, $taskName);
+
+        if ($completed) {
+            $task->complete();
+        }
+
+        $task->resetEvents();
+
+        return $task;
     }
 }
