@@ -4,10 +4,12 @@ namespace ToDoApp\Domain\Exception;
 
 class NotFoundException extends \Exception
 {
+    use ExceptionHelperTrait;
+
     public function __construct(string $className, $value, string $criteriaKey = 'id')
     {
-        $array = explode('\\', $className);
-
-        parent::__construct(end($array) . ' with ' . $criteriaKey . ' "' . $value . '" was not found.');
+        parent::__construct(
+            $this->fromClassNameToWords($className).' with '.$criteriaKey.' "'.$value.'" was not found.'
+        );
     }
 }
